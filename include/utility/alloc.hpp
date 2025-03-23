@@ -9,17 +9,17 @@
 template <typename T>
 inline T *aligned_allocate(const usize alignment, const usize size) {
 #ifdef _WIN32
-    return static_cast<T *>(_aligned_malloc(size * sizeof(T), alignment));
+  return static_cast<T *>(_aligned_malloc(size * sizeof(T), alignment));
 #else
-    return static_cast<T *>(aligned_alloc(alignment, size * sizeof(T)));
+  return static_cast<T *>(aligned_alloc(alignment, size * sizeof(T)));
 #endif
 }
 
 inline void aligned_free(void *ptr) {
 #ifdef _WIN32
-    _aligned_free(ptr);
+  _aligned_free(ptr);
 #else
-    free(ptr);
+  free(ptr);
 #endif
 }
 

@@ -6,8 +6,7 @@
 #include "../../md_complex/md_complex.hpp"
 #include "../../utility/math.hpp"
 
-template <typename T>
-using fn = std::function<T>;
+template <typename T> using fn = std::function<T>;
 
 /**
  * @brief Type inference namespace to infer implicit return types
@@ -18,8 +17,7 @@ namespace MdTypeInfer {
  * @tparam T1 value to check
  * @tparam ... variadic list
  */
-template <typename T1, typename...>
-struct is_any_one : std::false_type {};
+template <typename T1, typename...> struct is_any_one : std::false_type {};
 
 /**
  * @brief Template to check if type is from a variadic list
@@ -37,8 +35,7 @@ struct is_any_one<T1, T2, args...> {
  * @brief Template to check if type is one of the complex numbers
  * @tparam T value to check
  */
-template <typename T>
-struct is_complex {
+template <typename T> struct is_complex {
     static constexpr bool value =
         is_any_one<T, c64, c128, c32, cu8, cu16, cu32, cu64, ci8, ci16, ci32,
                    ci64>::value;
@@ -48,8 +45,7 @@ struct is_complex {
  * @brief Template to check if type is one of the native types
  * @tparam T value to check
  */
-template <typename T>
-struct is_native {
+template <typename T> struct is_native {
     static constexpr bool value = is_any_one<T, i32, i64, i16, i8, u8, u16, u32,
                                              u64, f32, f64, f128, usize>::value;
 };
@@ -58,8 +54,7 @@ struct is_native {
  * @brief Template to check if type is one of the native types
  * @tparam T value to check
  */
-template <typename T>
-struct is_int {
+template <typename T> struct is_int {
     static constexpr bool value =
         is_any_one<T, i32, i64, i16, i8, u8, u16, u32, u64, usize>::value;
 };
@@ -68,8 +63,7 @@ struct is_int {
  * @brief Template to check if type is one of the native types
  * @tparam T value to check
  */
-template <typename T>
-struct is_arith {
+template <typename T> struct is_arith {
     static constexpr bool value = is_native<T>::value || is_complex<T>::value;
 };
 
@@ -77,8 +71,7 @@ struct is_arith {
  * @brief Template to check if type is one of the floating complex numbers
  * @tparam T value to check
  */
-template <typename T>
-struct is_floating_complex {
+template <typename T> struct is_floating_complex {
     static constexpr bool value = is_any_one<T, c64, c128, c32>::value;
 };
 
@@ -86,8 +79,7 @@ struct is_floating_complex {
  * @brief Template to check if type is one of the signed complex integers
  * @tparam T value to check
  */
-template <typename T>
-struct is_signed_complex {
+template <typename T> struct is_signed_complex {
     static constexpr bool value = is_any_one<T, ci8, ci16, ci32, ci64>::value;
 };
 
@@ -95,8 +87,7 @@ struct is_signed_complex {
  * @brief Template to check if type is one of the unsigned complex integers
  * @tparam T value to check
  */
-template <typename T>
-struct is_unsigned_complex {
+template <typename T> struct is_unsigned_complex {
     static constexpr bool value = is_any_one<T, cu8, cu16, cu32, cu64>::value;
 };
 
@@ -104,8 +95,7 @@ struct is_unsigned_complex {
  * @brief Variadic template to check if type is one of the signed complex
  * integers
  */
-template <typename...>
-struct is_any_one_complex : std::false_type {};
+template <typename...> struct is_any_one_complex : std::false_type {};
 
 /**
  * @brief Variadic template to check if any one type is one of complex
@@ -123,8 +113,7 @@ struct is_any_one_complex<T1, args...> {
  * @brief Variadic template to check if any one type is one of complex
  * real numbers
  */
-template <typename...>
-struct is_any_one_floating_complex : std::false_type {};
+template <typename...> struct is_any_one_floating_complex : std::false_type {};
 
 /**
  * @brief Variadic template to check if any one type is one of complex
@@ -142,8 +131,7 @@ struct is_any_one_floating_complex<T1, args...> {
  * @brief Variadic template to check if any one type is one of complex
  * signed integers
  */
-template <typename...>
-struct is_any_one_signed_complex : std::false_type {};
+template <typename...> struct is_any_one_signed_complex : std::false_type {};
 
 /**
  * @brief Variadic template to check if any one type is one of complex
@@ -163,8 +151,7 @@ struct is_any_one_signed_complex<T1, args...> {
  * @tparam T1 value to check
  * @tparam args variadic arguments
  */
-template <typename...>
-struct is_any_one_unsigned_complex : std::false_type {};
+template <typename...> struct is_any_one_unsigned_complex : std::false_type {};
 
 /**
  * @brief Variadic template to check if any one type is one of complex
@@ -182,8 +169,7 @@ struct is_any_one_unsigned_complex<T1, args...> {
  * @brief Variadic template to check if any one type is one of
  * real numbers
  */
-template <typename...>
-struct is_any_one_floating : std::false_type {};
+template <typename...> struct is_any_one_floating : std::false_type {};
 
 /**
  * @brief Variadic template to check if any one type is one of
@@ -191,8 +177,7 @@ struct is_any_one_floating : std::false_type {};
  * @tparam T1 value to check
  * @tparam args variadic arguments
  */
-template <typename T1, class... arg>
-struct is_any_one_floating<T1, arg...> {
+template <typename T1, class... arg> struct is_any_one_floating<T1, arg...> {
     static constexpr bool value =
         std::is_floating_point<T1>::value || is_any_one_floating<arg...>::value;
 };
@@ -201,8 +186,7 @@ struct is_any_one_floating<T1, arg...> {
  * @brief Variadic template to check if any one type is one of
  * signed integers
  */
-template <class...>
-struct is_any_one_signed {
+template <class...> struct is_any_one_signed {
     static constexpr bool value = std::false_type{};
 };
 
@@ -212,8 +196,7 @@ struct is_any_one_signed {
  * @tparam T1 value to check
  * @tparam args variadic arguments
  */
-template <class T1, class... arg>
-struct is_any_one_signed<T1, arg...> {
+template <class T1, class... arg> struct is_any_one_signed<T1, arg...> {
     static constexpr bool value =
         std::is_signed<T1>::value || is_any_one_signed<arg...>::value;
 };
@@ -223,8 +206,7 @@ struct is_any_one_signed<T1, arg...> {
  * @tparam T1 first type
  * @tparam T2 second type
  */
-template <typename T1, typename T2, class = void>
-struct max_usize {};
+template <typename T1, typename T2, class = void> struct max_usize {};
 
 /**
  * @brief Returns type that has max byte size per element
@@ -252,8 +234,7 @@ struct max_usize<T1, T2,
  * @brief Wrapper for returning appropriate floating number
  * @tparam t generic type
  */
-template <typename t, class = void>
-struct floating_t;
+template <typename t, class = void> struct floating_t;
 
 /**
  * @brief Wrapper for returning appropriate floating number
@@ -281,8 +262,7 @@ struct floating_t<Ttypeval, typename std::enable_if<(sizeof(Ttypeval) >=
  * @brief Wrapper for returning appropriate complex floating number
  * @tparam Ttypeval generic type
  */
-template <typename t, class = void>
-struct complex_floating_t;
+template <typename t, class = void> struct complex_floating_t;
 
 template <typename Ttypeval>
 struct complex_floating_t<
@@ -309,8 +289,7 @@ struct complex_floating_t<
  * @brief Wrapper for returning appropriate complex signed integer
  * @tparam Ttypeval generic type
  */
-template <typename Ttypeval, typename...>
-struct complex_signed_t {
+template <typename Ttypeval, typename...> struct complex_signed_t {
     using type = Ttypeval;
 };
 
@@ -345,8 +324,7 @@ struct complex_signed_t<
  * @brief Wrapper for returning appropriate signed integer
  * @tparam Ttypeval generic type
  */
-template <typename Ttypeval, class = void>
-struct signed_t;
+template <typename Ttypeval, class = void> struct signed_t;
 
 template <typename Ttypeval>
 struct signed_t<
@@ -376,8 +354,7 @@ struct signed_t<Ttypeval, typename std::enable_if<(sizeof(Ttypeval) >=
  * @brief Wrapper for returning appropriate unsigned integer
  * @tparam Ttypeval generic type
  */
-template <typename Ttypeval, class = void>
-struct unsigned_t;
+template <typename Ttypeval, class = void> struct unsigned_t;
 
 template <typename Ttypeval>
 struct unsigned_t<
@@ -407,8 +384,7 @@ struct unsigned_t<Ttypeval, typename std::enable_if<(sizeof(Ttypeval) >=
  * @brief Wrapper for returning appropriate complex unsigned integer
  * @tparam Ttypeval generic type
  */
-template <typename Ttypeval, class...>
-struct cunsigned_t {
+template <typename Ttypeval, class...> struct cunsigned_t {
     using type = Ttypeval;
 };
 
@@ -436,14 +412,12 @@ struct cunsigned_t<Ttypeval, typename std::enable_if<(sizeof(Ttypeval) >=
     using type = cu64;
 };
 
-template <typename>
-struct is_vector : std::false_type {};
+template <typename> struct is_vector : std::false_type {};
 
 template <typename T, typename A>
 struct is_vector<std::vector<T, A>> : std::true_type {};
 
-template <typename T>
-struct is_mallocable {
+template <typename T> struct is_mallocable {
     static constexpr bool value =
         std::is_fundamental<T>::value || is_any_one_complex<T>::value;
 };
@@ -452,8 +426,7 @@ struct is_mallocable {
  * @brief Wrapper for evaluating appropriate complex type
  * @tparam Ttypeval generic type
  */
-template <typename T1, typename T2, class = void>
-struct eval_complex_t {
+template <typename T1, typename T2, class = void> struct eval_complex_t {
 #define MX_SZ decltype(max_usize<T1, T2>::value)
     static constexpr auto value = []() {
         if constexpr (is_any_one_floating_complex<T1, T2>::value) {
@@ -477,8 +450,7 @@ struct eval_complex_t {
  * @tparam T2 second type
  * @todo improve complex logic
  */
-template <typename T1, typename T2, class = void>
-struct eval_resultant_t {
+template <typename T1, typename T2, class = void> struct eval_resultant_t {
 #define MX_SZ decltype(max_usize<T1, T2>::value)
     static constexpr auto value = []() {
         if constexpr (is_any_one_complex<T1, T2>::value) {
@@ -495,6 +467,6 @@ struct eval_resultant_t {
 #undef MX_SZ
 };
 
-}  // namespace MdTypeInfer
+} // namespace MdTypeInfer
 
 #endif

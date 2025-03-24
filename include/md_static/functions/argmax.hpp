@@ -27,9 +27,9 @@ Array<usize> Utils::argmax(const Array<T> &values, const i32 axis) {
       std::vector<std::thread> thread_pool;
       std::vector<usize> accumulator(thread_count, 0);
 
-      auto evaluate_arg_max_ = [&accumulator, &values](const u8 thread_number,
-                                                       const usize start,
-                                                       const usize end) {
+      auto evaluate_argmax_ = [&accumulator, &values](const u8 thread_number,
+                                                      const usize start,
+                                                      const usize end) {
         usize result = 0;
 
         for (usize index = start; index < end; ++index) {
@@ -43,28 +43,29 @@ Array<usize> Utils::argmax(const Array<T> &values, const i32 axis) {
 
       const usize block = size / thread_count;
       const u8 thread_but_one = thread_count - 1;
-      usize index = 0;
+      usize index = 0, start = 0;
 
-      for (; index < thread_but_one; ++index) {
-        const usize start = block * index;
+      for (; index < thread_but_one; ++index, start += block) {
         const usize end = start + block;
-        thread_pool.emplace_back(evaluate_arg_max_, index, start, end);
+        thread_pool.emplace_back(evaluate_argmax_, index, start, end);
       }
 
-      const usize start = block * thread_but_one;
       const usize end = size;
-      thread_pool.emplace_back(evaluate_arg_max_, thread_but_one, start, end);
+      thread_pool.emplace_back(evaluate_argmax_, thread_but_one, start, end);
 
       for (auto &thread : thread_pool) {
         thread.join();
       }
 
-      for (auto &result_th : accumulator) {
-        result.array_[0] =
-            values.array_[result_th] > values.array_[result.array_[0]]
-                ? result_th
-                : result.array_[0];
+      usize res = 0;
+
+      for (auto &thread_result : accumulator) {
+        if (values.array_[thread_result] > values.array_[res]) {
+          res = thread_result;
+        }
       }
+
+      result.array_[0] = res;
     }
     return result;
   } else {

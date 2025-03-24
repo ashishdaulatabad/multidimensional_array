@@ -20,28 +20,34 @@ T Utils::accumulate_and_merge_fn(const Array<T> &values,
       result = function_exec(result, values.array_[index]);
     }
   } else {
-    std::vector<std::thread> st;
+    std::vector<std::thread> threads;
     std::vector<T> accumulator(thread_count);
+
     auto acc_merge_ = [&accumulator, &values,
                        &function_exec](const u8 thread_number,
                                        const usize start, const usize end) {
+      T result = 0;
+
       for (usize index = start; index < end; ++index) {
-        accumulator[thread_number] =
-            function_exec(accumulator[thread_number], values.array_[index]);
+        result = function_exec(result, values.array_[index]);
       }
+
+      accumulator[thread_number] = result;
     };
 
     const usize block = size / thread_count;
     const u8 thread_but_one = thread_count - 1;
+    usize index = 0, start = 0;
 
-    for (usize i = 0; i < thread_but_one; ++i) {
-      st.emplace_back(acc_merge_, i, block * i, block * (i + 1));
+    for (; index < thread_but_one; ++index, start += block) {
+      const usize end = start + block;
+      threads.emplace_back(acc_merge_, index, start, end);
     }
 
-    st.emplace_back(acc_merge_, thread_but_one, block * thread_but_one, size);
+    threads.emplace_back(acc_merge_, thread_but_one, start, size);
 
-    for (auto &th : st) {
-      th.join();
+    for (auto &thread : threads) {
+      thread.join();
     }
 
     for (auto &result_th : accumulator) {

@@ -7,8 +7,7 @@
 #include "./md_static_array_utility.hpp"
 
 template <typename T> Array<f64> Utils::tanh(const Array<T> &values) {
-  return Utils::map<T>(values,
-                       [](const T &__value) { return ::tanh(__value); });
+  return Utils::map<T>(values, [](const T &value) { return ::tanh(value); });
 }
 
 template <typename T> Array<f64> Utils::tanh(const ArraySlice<T> &values) {

@@ -12,6 +12,7 @@ Makefile
 out*.txt
 Testing/
 
+.vscode/
 .idea
 *build
 *.jpg

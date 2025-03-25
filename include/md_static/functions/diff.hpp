@@ -9,7 +9,7 @@ Array<T> Utils::diff(const Array<T> &ndarray, const i32 axis,
                      const usize thread_count) {
   if (axis == -1) {
     Array<T> result(ndarray.get_size() - 1);
-#pragma omp parallel for
+
     for (usize index = 0; index < ndarray.get_size() - 1; ++index) {
       result.array_[index] = ndarray.array_[index + 1] - ndarray.array_[index];
     }

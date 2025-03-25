@@ -15,7 +15,7 @@ typedef struct None {
 } None;
 
 typedef struct Err {
-    u8 err;
+  u8 err;
 } Err;
 
 /// @brief Variant of a type (only works on C++17 and above, use flag
@@ -28,11 +28,11 @@ enum Error { END, UNEXPECTED_TOKEN, INVALID_OPERATION };
 
 // Enum for marking data type for each column
 enum DataType {
-    INTEGER = 0b00001,
-    UNSIGNED_INTEGER = 0b00010,
-    REAL_NUMBER = 0b00100,
-    STRING = 0b01000,
-    NONE = 0b10000
+  INTEGER = 0b00001,
+  UNSIGNED_INTEGER = 0b00010,
+  REAL_NUMBER = 0b00100,
+  STRING = 0b01000,
+  NONE = 0b10000
 };
 
 struct ColView;
@@ -45,8 +45,8 @@ struct Table;
  * @return op
  */
 std::ostream &operator<<(std::ostream &op, const None &none) {
-    op << "None";
-    return op;
+  op << "None";
+  return op;
 }
 
 /**
@@ -56,8 +56,8 @@ std::ostream &operator<<(std::ostream &op, const None &none) {
  * @return op
  */
 std::ostream &operator<<(std::ostream &op, const Cell &value) {
-    std::visit([&op](const auto &x) { op << x; }, value);
-    return op;
+  std::visit([&op](const auto &x) { op << x; }, value);
+  return op;
 }
 //----------------------- + operator ----------------------//
 
@@ -65,151 +65,151 @@ std::ostream &operator<<(std::ostream &op, const Cell &value) {
  * @brief operator +
  */
 Cell operator+(const Cell &first, const Cell &second) {
-    switch (first.index()) {
-        case 0:
-            return second + std::get<i64>(first);
-        case 1:
-            return second + std::get<u64>(first);
-        case 2:
-            return second + std::get<f64>(first);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return second + std::get<i64>(first);
+  case 1:
+    return second + std::get<u64>(first);
+  case 2:
+    return second + std::get<f64>(first);
+  default:
+    return Cell(None{});
+  }
 }
 
 Cell operator-(const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(-std::get<i64>(first));
-        case 1:
-            return Cell(static_cast<usize>(-std::get<u64>(first)));
-        case 2:
-            return Cell(-std::get<f64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(-std::get<i64>(first));
+  case 1:
+    return Cell(static_cast<usize>(-std::get<u64>(first)));
+  case 2:
+    return Cell(-std::get<f64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator-(const Cell &first, const Cell &second) {
-    switch (first.index()) {
-        case 0:
-            return -second + std::get<i64>(first);
-        case 1:
-            return -second + std::get<u64>(first);
-        case 2:
-            return -second + std::get<f64>(first);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return -second + std::get<i64>(first);
+  case 1:
+    return -second + std::get<u64>(first);
+  case 2:
+    return -second + std::get<f64>(first);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator*(const Cell &first, const Cell &second) {
-    switch (first.index()) {
-        case 0:
-            return second * std::get<i64>(first);
-        case 1:
-            return second * std::get<u64>(first);
-        case 2:
-            return second * std::get<f64>(first);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return second * std::get<i64>(first);
+  case 1:
+    return second * std::get<u64>(first);
+  case 2:
+    return second * std::get<f64>(first);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator/(const Cell &first, const Cell &second) {
-    switch (first.index()) {
-        case 0:
-            return std::get<i64>(first) / second;
-        case 1:
-            return std::get<u64>(first) / second;
-        case 2:
-            return std::get<f64>(first) / second;
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return std::get<i64>(first) / second;
+  case 1:
+    return std::get<u64>(first) / second;
+  case 2:
+    return std::get<f64>(first) / second;
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator%(const Cell &first, const Cell &second) {
-    switch (first.index()) {
-        case 0:
-            return std::get<i64>(first) % second;
-        case 1:
-            return std::get<u64>(first) % second;
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return std::get<i64>(first) % second;
+  case 1:
+    return std::get<u64>(first) % second;
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator+(const Cell &first, const i64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) + second);
-        case 1:
-            return Cell(std::get<u64>(first) + second);
-        case 2:
-            return Cell(std::get<f64>(first) + second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) + second);
+  case 1:
+    return Cell(std::get<u64>(first) + second);
+  case 2:
+    return Cell(std::get<f64>(first) + second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator+(const Cell &first, const u64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) + second);
-        case 1:
-            return Cell(std::get<u64>(first) + second);
-        case 2:
-            return Cell(std::get<f64>(first) + second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) + second);
+  case 1:
+    return Cell(std::get<u64>(first) + second);
+  case 2:
+    return Cell(std::get<f64>(first) + second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator+(const Cell &first, const f64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) + second);
-        case 1:
-            return Cell(std::get<u64>(first) + second);
-        case 2:
-            return Cell(std::get<f64>(first) + second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) + second);
+  case 1:
+    return Cell(std::get<u64>(first) + second);
+  case 2:
+    return Cell(std::get<f64>(first) + second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator +
  */
 Cell operator+(const Cell &first, const std::string &second) {
-    switch (first.index()) {
-        case 3:
-            return Cell(std::get<std::string>(first) + second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 3:
+    return Cell(std::get<std::string>(first) + second);
+  default:
+    return Cell(None{});
+  }
 }
 
 //----------------------- - operator ----------------------//
@@ -218,248 +218,248 @@ Cell operator+(const Cell &first, const std::string &second) {
  * @brief operator -
  */
 Cell operator-(const Cell &first, const i64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) - second);
-        case 1:
-            return Cell(std::get<u64>(first) - second);
-        case 2:
-            return Cell(std::get<f64>(first) - second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) - second);
+  case 1:
+    return Cell(std::get<u64>(first) - second);
+  case 2:
+    return Cell(std::get<f64>(first) - second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator -
  */
 Cell operator-(const Cell &first, const u64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) - second);
-        case 1:
-            return Cell(std::get<u64>(first) - second);
-        case 2:
-            return Cell(std::get<f64>(first) - second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) - second);
+  case 1:
+    return Cell(std::get<u64>(first) - second);
+  case 2:
+    return Cell(std::get<f64>(first) - second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator -
  */
 Cell operator-(const Cell &first, const f64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) - second);
-        case 1:
-            return Cell(std::get<u64>(first) - second);
-        case 2:
-            return Cell(std::get<f64>(first) - second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) - second);
+  case 1:
+    return Cell(std::get<u64>(first) - second);
+  case 2:
+    return Cell(std::get<f64>(first) - second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator *
  */
 Cell operator*(const Cell &first, const i64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) * second);
-        case 1:
-            return Cell(std::get<u64>(first) * second);
-        case 2:
-            return Cell(std::get<f64>(first) * second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) * second);
+  case 1:
+    return Cell(std::get<u64>(first) * second);
+  case 2:
+    return Cell(std::get<f64>(first) * second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator *
  */
 Cell operator*(const Cell &first, const u64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) * second);
-        case 1:
-            return Cell(std::get<u64>(first) * second);
-        case 2:
-            return Cell(std::get<f64>(first) * second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) * second);
+  case 1:
+    return Cell(std::get<u64>(first) * second);
+  case 2:
+    return Cell(std::get<f64>(first) * second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator *
  */
 Cell operator*(const Cell &first, const f64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) * second);
-        case 1:
-            return Cell(std::get<u64>(first) * second);
-        case 2:
-            return Cell(std::get<f64>(first) * second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) * second);
+  case 1:
+    return Cell(std::get<u64>(first) * second);
+  case 2:
+    return Cell(std::get<f64>(first) * second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const Cell &first, const i64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) / second);
-        case 1:
-            return Cell(std::get<u64>(first) / second);
-        case 2:
-            return Cell(std::get<f64>(first) / second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) / second);
+  case 1:
+    return Cell(std::get<u64>(first) / second);
+  case 2:
+    return Cell(std::get<f64>(first) / second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const Cell &first, const u64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) / second);
-        case 1:
-            return Cell(std::get<u64>(first) / second);
-        case 2:
-            return Cell(std::get<f64>(first) / second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) / second);
+  case 1:
+    return Cell(std::get<u64>(first) / second);
+  case 2:
+    return Cell(std::get<f64>(first) / second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const Cell &first, const f64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) / second);
-        case 1:
-            return Cell(std::get<u64>(first) / second);
-        case 2:
-            return Cell(std::get<f64>(first) / second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) / second);
+  case 1:
+    return Cell(std::get<u64>(first) / second);
+  case 2:
+    return Cell(std::get<f64>(first) / second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const i64 second, const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(second / std::get<i64>(first));
-        case 1:
-            return Cell(second / std::get<u64>(first));
-        case 2:
-            return Cell(second / std::get<f64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(second / std::get<i64>(first));
+  case 1:
+    return Cell(second / std::get<u64>(first));
+  case 2:
+    return Cell(second / std::get<f64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const u64 second, const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(second / std::get<i64>(first));
-        case 1:
-            return Cell(second / std::get<u64>(first));
-        case 2:
-            return Cell(second / std::get<f64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(second / std::get<i64>(first));
+  case 1:
+    return Cell(second / std::get<u64>(first));
+  case 2:
+    return Cell(second / std::get<f64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator/(const f64 second, const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(second / std::get<i64>(first));
-        case 1:
-            return Cell(second / std::get<u64>(first));
-        case 2:
-            return Cell(second / std::get<f64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(second / std::get<i64>(first));
+  case 1:
+    return Cell(second / std::get<u64>(first));
+  case 2:
+    return Cell(second / std::get<f64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator%(const Cell &first, const i64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) % second);
-        case 1:
-            return Cell(std::get<u64>(first) % second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) % second);
+  case 1:
+    return Cell(std::get<u64>(first) % second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator%(const Cell &first, const u64 second) {
-    switch (first.index()) {
-        case 0:
-            return Cell(std::get<i64>(first) / second);
-        case 1:
-            return Cell(std::get<u64>(first) / second);
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(std::get<i64>(first) / second);
+  case 1:
+    return Cell(std::get<u64>(first) / second);
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator%(const i64 second, const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(second % std::get<i64>(first));
-        case 1:
-            return Cell(second % std::get<u64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(second % std::get<i64>(first));
+  case 1:
+    return Cell(second % std::get<u64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 /**
  * @brief operator /
  */
 Cell operator%(const u64 second, const Cell &first) {
-    switch (first.index()) {
-        case 0:
-            return Cell(second % std::get<i64>(first));
-        case 1:
-            return Cell(second % std::get<u64>(first));
-        default:
-            return Cell(None{});
-    }
+  switch (first.index()) {
+  case 0:
+    return Cell(second % std::get<i64>(first));
+  case 1:
+    return Cell(second % std::get<u64>(first));
+  default:
+    return Cell(None{});
+  }
 }
 
 #endif

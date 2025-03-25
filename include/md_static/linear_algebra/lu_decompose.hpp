@@ -46,7 +46,6 @@ Linalg::lu_decompose(const Array<T> &matrix) {
 
     usize jmax = permutation.array_[j];
 
-#pragma omp parallel for
     for (usize i = j + 1; i < n; ++i) {
       usize imax = permutation.array_[i];
       input.array_[imax * n + j] /= input.array_[jmax * n + j];
@@ -58,7 +57,6 @@ Linalg::lu_decompose(const Array<T> &matrix) {
     }
   }
 
-#pragma omp parallel for
   for (usize j = 0; j < n; ++j) {
     L.array_[j * n + j] = 1;
 
